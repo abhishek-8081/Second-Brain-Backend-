@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import { random } from "./utils";
 import jwt from "jsonwebtoken";
 import { ContentModel, LinkModel, UserModel } from "./db";
@@ -8,7 +8,9 @@ import cors from "cors";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+    {origin: "https://second-brain-website.vercel.app", credentials: true}
+));
 
 app.post("/api/v1/signup", async (req, res) => {
     // TODO: zod validation , hash the password
@@ -80,6 +82,11 @@ app.get("/api/v1/content", userMiddleware, async (req, res) => {
     }).populate("userId", "username")
     res.json({
         content
+    })
+})
+app.get("/", async (req, res) => {
+    res.status(200).send({
+        msg:" Server is live"
     })
 })
 
@@ -165,5 +172,8 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {
     })
 
 })
+
+
+console.log("Server is running at http://localhost:3000")
 
 app.listen(3000);
