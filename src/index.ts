@@ -8,9 +8,7 @@ import cors from "cors";
 
 const app = express();
 app.use(express.json());
-app.use(cors(
-    {origin: "https://second-brain-website.vercel.app", credentials: true}
-));
+app.use(cors());
 
 app.post("/api/v1/signup", async (req, res) => {
     // TODO: zod validation , hash the password
